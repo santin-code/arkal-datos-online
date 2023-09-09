@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <h1 class="titulo">LISTA DE PRECIOS</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th class="titulo_lista">FECHA</th>
+                <th class="titulo_lista">NOMBRE DEL PRODUCTO</th>
+                <th class="titulo_lista">PRECIO MAYOREO</th>
+                <th class="titulo_lista">PRECIO DE VENTA AL PÚBLICO</th>
+            </tr>
+        </thead>
+        <tbody id="tabla-datos">
+            <!-- Los datos se agregarán aquí -->
+        </tbody>
+    </table>
+
+    <h1 class="titulo">PEDIDOS DE ALUMNOS</h1>
+    <table border="2">
+        <thead>
+            <tr>
+                <th class="titulo_lista">FECHA</th>
+                <th class="titulo_lista">NOMBRE DEL PRODUCTO</th>
+                <th class="titulo_lista">ESTADO</th>
+            </tr>
+        </thead>
+        <tbody id="tabla-pedidos">
+            <!-- Los datos se agregarán aquí -->
+        </tbody>
+    </table>
+
+    <!-- Input para ingresar el precio -->
+    <div>
+        <label for="precioInput">Ingrese el precio:</label>
+        <input type="number" id="precioInput">
+        <button onclick="calcularIVA()">Calcular IVA</button>
+        <p id="resultadoIVA"></p>
+    </div>
+
+    <script>
+        // Datos de ejemplo (puedes reemplazar esto con una solicitud a una API u otra fuente de datos)
+        const datos = [
+            {
+                fecha: "30 de abril de 2023",
+                producto: "lapiz adhesivo dixon 36g",
+                mayoreo: "23",
+                precioPublico: "30",
+            },
+            {
+                fecha: "María",
+                producto: "lapicero",
+                mayoreo: "25",
+                precioPublico: "30",
+            },
+            {
+                fecha: "Pedro",
+                producto: "cuaderno",
+                mayoreo: "35",
+                precioPublico: "40",
+            },
+        ];
+
+        const pedidos = [
+            {
+                fecha: "1 de septiembre 2023",
+                producto: "hoja milimétrica",
+                estado: "faltante",
+            },
+            {
+                fecha: "1 de septiembre 2023",
+                producto: "papel contact",
+                estado: "faltante",
+            },{
+                fecha: "1 de septiembre 2023",
+                producto: "enmicados",
+                estado: "faltante",
+            },
+            {
+                fecha: "1 de septiembre 2023",
+                producto: "paquetes de hojas blancas",
+                estado: "faltante",
+            },
+        ];
+
+        // Función para agregar datos a la tabla
+        function agregarDatosATabla() {
+            const tabla = document.getElementById("tabla-datos");
+
+            datos.forEach((dato) => {
+                const fila = document.createElement("tr");
+
+                const fechaCelda = document.createElement("td");
+                fechaCelda.textContent = dato.fecha;
+
+                const productoCelda = document.createElement("td");
+                productoCelda.textContent = dato.producto;
+
+                const mayoreoCelda = document.createElement("td");
+                mayoreoCelda.textContent = dato.mayoreo;
+
+                const precioPublicoCelda = document.createElement("td");
+                precioPublicoCelda.textContent = dato.precioPublico;
+
+                fila.appendChild(fechaCelda);
+                fila.appendChild(productoCelda);
+                fila.appendChild(mayoreoCelda);
+                fila.appendChild(precioPublicoCelda);
+
+                tabla.appendChild(fila);
+            });
+        }
+
+        // Función para agregar pedidos a la tabla
+        function agregarPedidosATabla() {
+            const tabla = document.getElementById("tabla-pedidos");
+
+            pedidos.forEach((pedido) => {
+                const fila = document.createElement("tr");
+
+                const fechaCelda = document.createElement("td");
+                fechaCelda.textContent = pedido.fecha;
+
+                const productoCelda = document.createElement("td");
+                productoCelda.textContent = pedido.producto;
+
+                const estadoCelda = document.createElement("td");
+                estadoCelda.textContent = pedido.estado;
+
+                if (pedido.estado === "agregado") {
+                    estadoCelda.style.color = "green";
+                } else if (pedido.estado === "faltante") {
+                    estadoCelda.style.color = "red";
+                }
+
+                fila.appendChild(fechaCelda);
+                fila.appendChild(productoCelda);
+                fila.appendChild(estadoCelda);
+
+                tabla.appendChild(fila);
+            });
+        }
+
+        // Función para calcular el IVA
+        function calcularIVA() {
+            const precioInput = document.getElementById("precioInput").value;
+            const resultadoIVA = document.getElementById("resultadoIVA");
+
+            if (precioInput) {
+                const precio = parseFloat(precioInput);
+                const iva = precio * 0.16; // IVA del 16%
+                resultadoIVA.textContent = `El IVA es: $${iva.toFixed(2)}`;
+            } else {
+                resultadoIVA.textContent = "Ingrese un precio válido.";
+            }
+        }
+
+        // Llama a las funciones para agregar datos a las tablas cuando se cargue la página
+        window.onload = () => {
+            agregarDatosATabla();
+            agregarPedidosATabla();
+        };
+    </script>
+</body>
+</html>
